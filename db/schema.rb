@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140322220258) do
+ActiveRecord::Schema.define(version: 20140322223923) do
 
   create_table "freeagent_accounts", force: true do |t|
     t.integer  "user_id"
@@ -22,6 +22,8 @@ ActiveRecord::Schema.define(version: 20140322220258) do
     t.integer  "expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "stripe"
+    t.integer  "main"
   end
 
   add_index "freeagent_accounts", ["user_id"], name: "index_freeagent_accounts_on_user_id", using: :btree
