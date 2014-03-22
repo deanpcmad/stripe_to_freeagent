@@ -11,7 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140322213541) do
+ActiveRecord::Schema.define(version: 20140322213814) do
+
+  create_table "freeagent_accounts", force: true do |t|
+    t.integer  "user_id"
+    t.string   "uid"
+    t.string   "email"
+    t.string   "token"
+    t.string   "refresh_token"
+    t.integer  "expires_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "freeagent_accounts", ["user_id"], name: "index_freeagent_accounts_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
