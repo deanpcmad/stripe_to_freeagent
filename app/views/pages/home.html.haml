@@ -3,6 +3,14 @@
 - if user_signed_in?
 	%p Hello #{current_user.email}
 	= link_to "Login with FreeAgent", "/auth/freeagent", class: "btn btn-success"
+
+	%hr
+
+	%b Your FreeAgent Accounts
+	%ul
+		- current_user.freeagent_accounts.each do |a|
+			%li= a.email
+
 - else
 	= link_to "Login", new_user_session_path
 	= link_to "Register", new_user_registration_path
