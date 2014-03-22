@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  token: MyString
+  publishable_key: MyString
+  stripe_user_id: MyString
+
+two:
+  user_id: 
+  token: MyString
+  publishable_key: MyString
+  stripe_user_id: MyString
