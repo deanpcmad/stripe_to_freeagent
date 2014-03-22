@@ -3,7 +3,15 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
 
+  before_validation :generate_token, unless: Proc.new { |model| model.persisted? }
+
   has_many :freeagent_accounts
   has_many :stripe_accounts
+
+  private
+
+  def generate_token
+  	self.token = SecureRandom.uuid
+  end
 
 end
