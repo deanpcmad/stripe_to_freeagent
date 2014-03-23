@@ -4,6 +4,7 @@
 	%p Hello #{current_user.email}
 	= link_to "Login with FreeAgent", "/auth/freeagent", class: "btn btn-success"
 	= link_to "Setup Stripe", setup_stripe_path, method: :patch, class: "btn btn-success"
+	= link_to "Logs", logs_path, class: "btn btn-default"
 
 	%hr
 

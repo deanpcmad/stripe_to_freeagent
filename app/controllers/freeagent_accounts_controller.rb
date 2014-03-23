@@ -1,5 +1,7 @@
 class FreeagentAccountsController < ApplicationController
 
+	before_filter :authenticate_user!
+
 	before_action {
 		@freeagent_account = current_user.freeagent_account
 	}

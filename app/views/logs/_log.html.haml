@@ -1,0 +1,4 @@
+= content_tag_for(:tr, log) do 
+	%td= log.created_at
+	%td= log.success
+	%td= link_to "View", log
