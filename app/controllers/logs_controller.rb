@@ -8,6 +8,11 @@ class LogsController < ApplicationController
 
   def show
   	@log = current_user.logs.find(params[:id])
+
+  	respond_to do |format|
+  	  format.html
+  	  format.js
+  	end
   end
 
 end
