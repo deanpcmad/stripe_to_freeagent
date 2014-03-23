@@ -6,6 +6,15 @@
 		= javascript_include_tag "application"
 		= csrf_meta_tags
 %body
-	%section.content
-		.container
-			= yield
+	.container
+		.header
+			%ul.nav.nav-pills.pull-right
+				= active_link_to "Home", root_path, wrap_tag: :li, active: [["pages"], ["home"]]
+				= active_link_to "Logs", logs_path, wrap_tag: :li
+				%li= mail_to "dean@voupe.co.uk", "Contact", subject: "Stripe to Freeagent Message"
+			%h3.text-muted Stripe to FreeAgent
+		
+		= yield
+		
+		.footer
+			%p An app by #{link_to "Voupe", "http://voupe.co.uk"}

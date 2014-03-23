@@ -1,7 +1,6 @@
 require "freeagent"
 require "stripe"
 require "csv"
-require "colorize"
 
 class Run
 

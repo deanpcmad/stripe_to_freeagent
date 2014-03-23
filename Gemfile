@@ -17,13 +17,14 @@ gem "devise"
 
 gem "stripe"
 gem "freeagent-api-ruby", path: "../freeagent-api-ruby"
-gem "colorize"
 
 gem "omniauth-freeagent"
 
 gem "resque"
 gem "resque-web", require: "resque_web"
 gem "resque-scheduler"
+
+gem "active_link_to"
 
 group :development do 
 	gem "capistrano", "~> 2"
