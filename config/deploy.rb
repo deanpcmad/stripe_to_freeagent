@@ -21,6 +21,9 @@ role :resque_scheduler, "87.117.253.86"
 set :workers, { "*" => 2 }
 
 after "deploy:restart", "resque:restart"
+
+# Voupe Deploy tracking
+set :dashboard_site_uuid, "20571dab-b87e-4c46-9b04-9ae9625a75f5"
  
 # =============================================================================
 # RECIPE INCLUDES

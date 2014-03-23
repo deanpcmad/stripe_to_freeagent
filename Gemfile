@@ -26,6 +26,8 @@ gem "resque-scheduler"
 
 gem "active_link_to"
 
+gem "airbrake"
+
 group :development do 
 	gem "powder"
 	gem "better_errors"
