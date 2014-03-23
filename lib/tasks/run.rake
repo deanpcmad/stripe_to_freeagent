@@ -1,6 +1,7 @@
 require "freeagent"
 require "stripe"
 require "csv"
+require "colorize"
 
 task run: :environment do
 	u = User.first
@@ -12,30 +13,13 @@ task run: :environment do
 	# get company to check it's authenticated
 	FreeAgent::Company.information
 
-
 	# stripe
 	Stripe.api_key = s.token
 
-
-	# FreeAgent::BankTransaction.new bank_account: f.main, description: "Invoice #22 - Dean Perry", amount: "20.00"
-
-	# CSV.open("transactions.csv", "wb") do |csv|
-	#   Stripe::Charge.all.each do |charge|
-	#     csv << [Time.at(charge.created).strftime("%d/%m/%Y"), charge.amount / 100.0, charge.description || charge.id] if charge.paid
-	#   end
-	#   Stripe::Transfer.all.each do |transfer|
-	#     transfer.transactions.each do | transaction|
-	#       csv << [Time.at(transaction.created).strftime("%d/%m/%Y"), transaction.amount / 100.0, transaction.description || transaction.id]
-	#       csv << [Time.at(transaction.created).strftime("%d/%m/%Y"), - (transaction.fee / 100.0), "Stripe Fee = #{transaction.id}"]
-	#     end
-	#   end
-	# end
-
-	# FreeAgent::BankTransaction.upload_statement File.open("transactions.csv"), f.main
-
+	puts "Getting Stripe Balance Transactions..."
 
 	CSV.open("balances.csv", "wb") do |csv|
-	  Stripe::BalanceTransaction.all.each do |b|
+	  Stripe::BalanceTransaction.all(count: 100, available_on: {gte: s.last_updated.to_i}).each do |b|
 	    if b.type == "transfer"
 	      csv << [Time.at(b.created).strftime("%d/%m/%Y"), (b.amount / 100.0), "transfer"]
 	    elsif b.type == "charge"
@@ -51,26 +35,37 @@ task run: :environment do
 	  end
 	end
 
+	puts "Uploading Stripe Balance Transactions to FreeAgent account #{f.stripe}..."
+
+	s.last_updated = DateTime.now
+	s.save
+
 	FreeAgent::BankTransaction.upload_statement File.open("balances.csv"), f.stripe
+
+	puts "Uploaded Transactions".green
+
+	# Sleep for 5 seconds
+	sleep 5
 
 	explain = FreeAgent::BankTransaction.unexplained f.stripe
 
 	puts "Found #{explain.count} unexplained transactions"
 
 	explain.each do |e|
-	  puts "Explaining FreeAgent bank transction #{e.id}..."
+	  puts "Explaining FreeAgent bank transction #{e.id}...".yellow
 	  if e.description.match(/stripe_fee/)
 	    # The transaction is a fee 
 	    FreeAgent::BankTransactionExplanation.create_for_transaction e.url, e.dated_on, "Stripe Charge", e.unexplained_amount, "363"
-	    puts "  - Explained as a Stripe Charge"
+	    puts "  - Explained as a Stripe Charge".green
 	  elsif e.description.match(/transfer/)
 	    FreeAgent::BankTransactionExplanation.create_transfer e.url, e.dated_on, e.unexplained_amount, f.main
-	    puts "  - Explained as a Transfer"
+	    puts "  - Explained as a Transfer".green
 	  else
 	    FreeAgent::BankTransactionExplanation.create_for_transaction e.url, e.dated_on, e.description.gsub("//OTHER/", ""), e.unexplained_amount, "001"
-	    puts "  - Explained as a Sale"
+	    puts "  - Explained as a Sale".green
 	  end
 	end
 
-	puts "Successfully explained #{explain.count} transactions"
+	puts "..."
+	puts "Successfully explained #{explain.count} transactions".green
 end

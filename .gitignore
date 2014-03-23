@@ -17,3 +17,4 @@
 
 config/secret_token.yml
 config/initializers/stripe_connect.rb
+balances.csv

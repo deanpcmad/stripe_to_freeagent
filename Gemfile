@@ -17,6 +17,7 @@ gem "devise"
 
 gem "stripe"
 gem "freeagent-api-ruby", path: "../freeagent-api-ruby"
+gem "colorize"
 
 gem "omniauth-freeagent"
 
