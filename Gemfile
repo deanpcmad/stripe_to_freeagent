@@ -35,6 +35,6 @@ group :development do
 	gem "letter_opener"
 	gem "quiet_assets"
 	gem "capistrano", "~> 2"
-	gem "capistrano-voupe", github: "voupe/capistrano-voupe"
-	gem "capistrano-resque", github: "deanperry/capistrano-resque"
+	gem "capistrano-voupe", github: "voupe/capistrano-voupe", require: false
+	gem "capistrano-resque", github: "deanperry/capistrano-resque", require: false
 end
