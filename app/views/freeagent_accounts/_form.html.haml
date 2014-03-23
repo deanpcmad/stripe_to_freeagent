@@ -1,0 +1,9 @@
+= form_for @freeagent_account do |f|
+	.form-group
+		= f.label :main, "Main Account ID"
+		= f.text_field :main
+	.form-group
+		= f.label :stripe, "Stripe Account ID"
+		= f.text_field :stripe
+
+	= f.submit class: "btn btn-primary"

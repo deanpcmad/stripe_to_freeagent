@@ -7,17 +7,16 @@
 
 	%hr
 
-	%b Your FreeAgent Accounts
-	%ul
-		- current_user.freeagent_accounts.each do |a|
-			%li= a.email
+	%b Your FreeAgent Account
+	%p= current_user.freeagent_account.email
+	%p Main Account: #{current_user.freeagent_account.main}
+	%p Stripe Account: #{current_user.freeagent_account.stripe}
+	%p= link_to "Edit", edit_freeagent_account_path(current_user.freeagent_account)
 
 	%hr
 
-	%b Your Stripe Accounts
-	%ul
-		- current_user.stripe_accounts.each do |a|
-			%li= a.stripe_user_id
+	%b Your Stripe Account
+	%p= current_user.stripe_account.stripe_user_id
 
 - else
 	= link_to "Login", new_user_session_path

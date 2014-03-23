@@ -10,4 +10,6 @@ StripeToFreeagent::Application.routes.draw do
 
   match "setup_stripe", to: "pages#setup_stripe", via: [:get, :patch, :delete]
 
+  resources :freeagent_accounts
+
 end

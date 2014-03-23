@@ -1,0 +1,2 @@
+module FreeagentAccountsHelper
+end

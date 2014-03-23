@@ -5,8 +5,8 @@ class User < ActiveRecord::Base
 
   before_validation :generate_token, unless: Proc.new { |model| model.persisted? }
 
-  has_many :freeagent_accounts
-  has_many :stripe_accounts
+  has_one :freeagent_account
+  has_one :stripe_account
 
   private
 
