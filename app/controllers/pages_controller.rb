@@ -13,16 +13,16 @@ class PagesController < ApplicationController
   	  # Redirect the user to the authorize_uri endpoint
   	  redirect_to STRIPE_CONNECT.auth_code.authorize_url(params)
   	elsif request.get?
-			# Pull the authorization_code out of the response
-	    code = request.params[:code]
-      if code
+      begin
+  			# Pull the authorization_code out of the response
+  	    code = request.params[:code]
     		user = User.find_by(token: request.params[:state])
     		 
   	    # Make a request to the access_token_uri endpoint to get an access_token
   	    response = STRIPE_CONNECT.auth_code.get_token(code, params: {scope: "read_write"})
 
   	    # Create a StripeAcount for the user
-  	    acc = user.stripe_account.build
+  	    acc = StripeAccount.new(user: user)
   	    acc.token = response.token
   	    acc.publishable_key = response.params["stripe_publishable_key"]
   	    acc.stripe_user_id = response.params["stripe_user_id"]
@@ -33,8 +33,8 @@ class PagesController < ApplicationController
   		  else
   		  	redirect_to root_url(complete: false)
   		  end
-      else
-        render text: "Error"
+      rescue => e
+        render text: "Error -- #{e}"
       end
 
   	elsif request.delete?
