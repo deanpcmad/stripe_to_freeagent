@@ -21,7 +21,7 @@ class PagesController < ApplicationController
 	    response = STRIPE_CONNECT.auth_code.get_token(code, params: {scope: "read_write"})
 
 	    # Create a StripeAcount for the user
-	    acc = user.stripe_accounts.build
+	    acc = user.stripe_account.build
 	    acc.token = response.token
 	    acc.publishable_key = response.params["stripe_publishable_key"]
 	    acc.stripe_user_id = response.params["stripe_user_id"]
