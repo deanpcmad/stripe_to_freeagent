@@ -1,24 +1,48 @@
-%h1 Stripe to FreeAgent
+%h1{style: "text-align:center"} Stripe to FreeAgent
+%p.lead{style: "text-align:center"} An app that adds your Stripe charges, fees &amp; transfers to FreeAgent
+
+%hr
 
 - if user_signed_in?
-	%p Hello #{current_user.email}
-	= link_to "Login with FreeAgent", "/auth/freeagent", class: "btn btn-success"
-	= link_to "Setup Stripe", setup_stripe_path, method: :patch, class: "btn btn-success"
-	= link_to "Logs", logs_path, class: "btn btn-default"
+	%p.lead{style: "text-align:center"} Hello #{current_user.email}
+	%p{style: "text-align:center"}
+		= link_to "Login with FreeAgent", "/auth/freeagent", class: "btn btn-success"
+		= link_to "Login with Stripe", setup_stripe_path, method: :patch, class: "btn btn-success"
 
 	%hr
 
-	%b Your FreeAgent Account
-	%p= current_user.freeagent_account.email
-	%p Main Account: #{current_user.freeagent_account.main}
-	%p Stripe Account: #{current_user.freeagent_account.stripe}
-	%p= link_to "Edit", edit_freeagent_account_path(current_user.freeagent_account)
-
-	%hr
-
-	%b Your Stripe Account
-	%p= current_user.stripe_account.stripe_user_id
+	%table.table
+		%thead
+			%tr
+				%th{width: "50%"} Stripe
+				%th FreeAgent
+		%tbody
+			%tr
+				%td
+					%p= current_user.stripe_account.stripe_user_id
+				%td
+					%p= current_user.freeagent_account.email
+					%p Main Account: #{current_user.freeagent_account.main}
+					%p Stripe Account: #{current_user.freeagent_account.stripe}
+					%p= link_to "Edit", edit_freeagent_account_path(current_user.freeagent_account)
 
 - else
-	= link_to "Login", new_user_session_path
-	= link_to "Register", new_user_registration_path
+	%p{style: "text-align:center; margin-bottom: 20px"}
+		= link_to "Sign In", new_user_session_path, class: "btn btn-primary btn-lg"
+		= link_to "Sign Up", new_user_registration_path, class: "btn btn-success btn-lg"
+
+/ .row.marketing
+/ 	.col-lg-6
+/ 		%h4 Subheading
+/ 		%p Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.
+/ 		%h4 Subheading
+/ 		%p Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.
+/ 		%h4 Subheading
+/ 		%p Maecenas sed diam eget risus varius blandit sit amet non magna.
+/ 	.col-lg-6
+/ 		%h4 Subheading
+/ 		%p Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.
+/ 		%h4 Subheading
+/ 		%p Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.
+/ 		%h4 Subheading
+/ 		%p Maecenas sed diam eget risus varius blandit sit amet non magna.
