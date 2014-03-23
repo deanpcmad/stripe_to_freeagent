@@ -34,5 +34,5 @@ group :development do
 	gem "quiet_assets"
 	gem "capistrano", "~> 2"
 	gem "capistrano-voupe", github: "voupe/capistrano-voupe"
-	gem "capistrano-resque"
+	gem "capistrano-resque", github: "deanperry/capistrano-resque"
 end

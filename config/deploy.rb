@@ -19,7 +19,6 @@ set :domain_name, "stripetofreeagent.com"
 role :resque_worker, "87.117.253.86"
 role :resque_scheduler, "87.117.253.86"
 set :workers, { "*" => 2 }
-set :resque_environment_task, true
 
 after "deploy:restart", "resque:restart"
  
