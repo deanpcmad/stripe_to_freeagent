@@ -16,7 +16,7 @@ gem "unicorn"
 gem "devise"
 
 gem "stripe"
-gem "freeagent-api-ruby", path: "../freeagent-api-ruby"
+gem "freeagent-api-ruby", github: "voupe/freeagent-api-ruby"
 
 gem "omniauth-freeagent"
 
@@ -27,10 +27,12 @@ gem "resque-scheduler"
 gem "active_link_to"
 
 group :development do 
-	gem "capistrano", "~> 2"
 	gem "powder"
 	gem "better_errors"
 	gem "binding_of_caller"
 	gem "letter_opener"
 	gem "quiet_assets"
+	gem "capistrano", "~> 2"
+	gem "capistrano-voupe", github: "voupe/capistrano-voupe"
+	gem "capistrano-resque"
 end
