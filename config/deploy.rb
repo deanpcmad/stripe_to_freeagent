@@ -42,7 +42,12 @@ namespace :symlink do
 	task :omniauth, roles: :app, except: {no_release: true} do
 		run "ln -nfs #{shared_path}/config/initializers/omniauth.rb #{release_path}/config/initializers/omniauth.rb"
 	end
+
+	task :secret_token, roles: :app, except: {no_release: true} do
+		run "ln -nfs #{shared_path}/config/secret_token.yml #{release_path}/config/secret_token.yml"
+	end
 end
 
 after "mysql:symlink", "symlink:stripe_connect"
 after "mysql:symlink", "symlink:omniauth"
+after "mysql:symlink", "symlink:secret_token"
