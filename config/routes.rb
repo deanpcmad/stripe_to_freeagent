@@ -1,3 +1,5 @@
+require "resque_web"
+
 StripeToFreeagent::Application.routes.draw do
 
   root "pages#home"
@@ -11,5 +13,7 @@ StripeToFreeagent::Application.routes.draw do
   match "setup_stripe", to: "pages#setup_stripe", via: [:get, :patch, :delete]
 
   resources :freeagent_accounts
+
+  mount ResqueWeb::Engine => "/resque_web"
 
 end

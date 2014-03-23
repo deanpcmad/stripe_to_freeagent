@@ -21,9 +21,15 @@ gem "colorize"
 
 gem "omniauth-freeagent"
 
+gem "resque"
+gem "resque-web", require: "resque_web"
+gem "resque-scheduler"
+
 group :development do 
 	gem "capistrano", "~> 2"
 	gem "powder"
 	gem "better_errors"
 	gem "binding_of_caller"
+	gem "letter_opener"
+	gem "quiet_assets"
 end
