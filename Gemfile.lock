@@ -77,9 +77,6 @@ GEM
     hashie (2.0.5)
     highline (1.6.20)
     hike (1.2.3)
-    httparty (0.12.0)
-      json (~> 1.8)
-      multi_xml (>= 0.5.2)
     i18n (0.6.9)
     jquery-rails (3.0.4)
       railties (>= 3.0, < 5.0)
@@ -194,7 +191,6 @@ DEPENDENCIES
   devise
   freeagent-api-ruby!
   haml-rails
-  httparty
   jquery-rails
   mysql2
   omniauth-freeagent
