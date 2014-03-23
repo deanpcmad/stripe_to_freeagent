@@ -13,6 +13,12 @@
 				= active_link_to "Logs", logs_path, wrap_tag: :li if current_user
 				%li= mail_to "dean@voupe.co.uk", "Contact", subject: "Stripe to FreeAgent"
 			%h3.text-muted Stripe to FreeAgent
+
+		.alert_messages
+			- if flash[:notice]
+				.alert.alert-success= flash[:notice]
+			- if flash[:alert]
+				.alert.alert-danger= flash[:alert]
 		
 		= yield
 		

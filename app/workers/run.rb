@@ -6,13 +6,12 @@ class Run
 
 	@queue = :run
 
-  def self.perform(user_id)
+  def self.perform(user_id, log_id)
   	u = User.find(user_id)
   	f = u.freeagent_account
   	s = u.stripe_account
 
-  	l = u.logs.build
-  	l.content = ""
+  	l = u.logs.find(log_id)
   	l.content += "Starting import for User #{u.id}\n"
 
   	FreeAgent.access_details ENV["FREEAGENT_ID"], ENV["FREEAGENT_SECRET"], f.token

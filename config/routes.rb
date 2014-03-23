@@ -15,6 +15,8 @@ StripeToFreeagent::Application.routes.draw do
   resources :freeagent_accounts
   resources :logs
 
+  put "run", to: "run#go"
+
   mount ResqueWeb::Engine => "/resque_web"
 
 end

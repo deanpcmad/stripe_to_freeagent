@@ -9,6 +9,10 @@
 		= link_to "Login with FreeAgent", "/auth/freeagent", class: "btn btn-success"
 		= link_to "Login with Stripe", setup_stripe_path, method: :patch, class: "btn btn-success"
 
+	- if current_user.freeagent_account.present? && current_user.stripe_account.present?
+		%hr
+		%p{style: "text-align:center"}= link_to "Run Import", run_path, method: :put, class: "btn btn-primary btn-lg", data: {disable_with: "Running Import..."}
+
 	%hr
 
 	%table.table
