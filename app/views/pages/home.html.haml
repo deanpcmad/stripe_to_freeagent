@@ -13,22 +13,28 @@
 		%hr
 		%p{style: "text-align:center"}= link_to "Run Import", run_path, method: :put, class: "btn btn-primary btn-lg", data: {disable_with: "Running Import..."}
 
-		%hr
+	%hr
 
-		%table.table
-			%thead
-				%tr
-					%th{width: "50%"} Stripe
-					%th FreeAgent
-			%tbody
-				%tr
-					%td
+	%table.table
+		%thead
+			%tr
+				%th{width: "50%"} Stripe
+				%th FreeAgent
+		%tbody
+			%tr
+				%td
+					- if current_user.stripe_account.present?
 						%p= current_user.stripe_account.stripe_user_id
-					%td
+					- else
+						%p Click the "Login with Stripe" button above
+				%td
+					- if current_user.freeagent_account.present?
 						%p= current_user.freeagent_account.email
 						%p Main Account: #{current_user.freeagent_account.main}
 						%p Stripe Account: #{current_user.freeagent_account.stripe}
 						%p= link_to "Edit", edit_freeagent_account_path(current_user.freeagent_account)
+					- else
+						%p Click the "Login with FreeAgent" button above
 
 - else
 	%p{style: "text-align:center; margin-bottom: 20px"}
