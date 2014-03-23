@@ -16,5 +16,4 @@
 /tmp
 
 config/secret_token.yml
-config/initializers/omniauth.rb
 config/initializers/stripe_connect.rb
