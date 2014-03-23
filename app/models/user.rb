@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
 
   has_one :freeagent_account
   has_one :stripe_account
+  has_many :logs
 
   private
 

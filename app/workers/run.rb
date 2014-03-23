@@ -12,15 +12,19 @@ class Run
   	f = u.freeagent_account
   	s = u.stripe_account
 
+  	l = u.logs.build
+  	l.content = ""
+  	l.content += "Starting import for User #{u.id}\n"
+
   	FreeAgent.access_details ENV["FREEAGENT_ID"], ENV["FREEAGENT_SECRET"], f.token
 
   	# get company to check it's authenticated
-  	FreeAgent::Company.information
+  	l.content += "FreeAgent Company: #{FreeAgent::Company.information.name}\n"
 
   	# stripe
   	Stripe.api_key = s.token
 
-  	puts "Getting Stripe Balance Transactions..."
+  	l.content += "Getting Stripe Balance Transactions...\n"
 
   	CSV.open("balances.csv", "wb") do |csv|
   	  Stripe::BalanceTransaction.all(count: 100, available_on: {gte: s.last_updated.to_i}).each do |b|
@@ -39,39 +43,48 @@ class Run
   	  end
   	end
 
-  	puts "Uploading Stripe Balance Transactions to FreeAgent account #{f.stripe}..."
+  	l.content += "Uploading Stripe Balance Transactions to FreeAgent account #{f.stripe}...\n"
 
   	s.last_updated = DateTime.now
   	s.save
 
   	FreeAgent::BankTransaction.upload_statement File.open("balances.csv"), f.stripe
 
-  	puts "Uploaded Transactions".green
+  	l.content += "Uploaded Transactions\n"
 
   	# Sleep for 5 seconds
   	sleep 5
 
   	explain = FreeAgent::BankTransaction.unexplained f.stripe
 
-  	puts "Found #{explain.count} unexplained transactions"
+  	l.content += "Found #{explain.count} unexplained transactions\n"
 
   	explain.each do |e|
-  	  puts "Explaining FreeAgent bank transction #{e.id}...".yellow
+  	  l.content += "Explaining FreeAgent bank transction #{e.id}...\n"
   	  if e.description.match(/stripe_fee/)
   	    # The transaction is a fee 
   	    FreeAgent::BankTransactionExplanation.create_for_transaction e.url, e.dated_on, "Stripe Charge", e.unexplained_amount, "363"
-  	    puts "  - Explained as a Stripe Charge".green
+  	    l.content += "  - Explained as a Stripe Charge\n"
   	  elsif e.description.match(/transfer/)
   	    FreeAgent::BankTransactionExplanation.create_transfer e.url, e.dated_on, e.unexplained_amount, f.main
-  	    puts "  - Explained as a Transfer".green
+  	    l.content += "  - Explained as a Transfer\n"
   	  else
   	    FreeAgent::BankTransactionExplanation.create_for_transaction e.url, e.dated_on, e.description.gsub("//OTHER/", ""), e.unexplained_amount, "001"
-  	    puts "  - Explained as a Sale".green
+  	    l.content += "  - Explained as a Sale\n"
   	  end
   	end
 
-  	puts "..."
-  	puts "Successfully explained #{explain.count} transactions".green
+  	l.content += "...\n"
+  	l.content += "Successfully explained #{explain.count} transactions\n"
+
+  	l.content += "Complete\n"
+  	l.success = true
+  	l.save
+
+  rescue
+  	l.content += "\n\nERROR\n\n"
+  	l.success = false
+  	l.save
   end
 
 end
