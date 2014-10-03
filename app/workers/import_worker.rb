@@ -8,16 +8,21 @@ class ImportWorker
 
   def self.perform(user_id, import_id)
     u = User.find(user_id)
-    f = u.freeagent_account
-    s = u.stripe_account
-
     i = u.imports.find(import_id)
+    f = i.freeagent_account
+    s = i.stripe_account
+
     i.started_at = DateTime.now
-    i.log += "Starting import for User #{u.id}\n"
+    i.log += "Starting import...\n"
+    i.log += "Started at #{i.started_at}\n"
     i.save
 
+    # Refresh the FreeAgent token if it's expired
+    if f.token_expired?
+      f.refresh_token_if_expired
+    end
+
     FreeAgent.access_details ENV["FREEAGENT_ID"], ENV["FREEAGENT_SECRET"], f.token
-    # FreeAgent.access_details "rVMVYc9pD9og4UYlBqngBw", "5yBed4kypRIXO03IgOhqfQ", f.token
 
     # get company to check it's authenticated
     i.log += "FreeAgent Company: #{FreeAgent::Company.information.name}\n"
@@ -30,7 +35,7 @@ class ImportWorker
     i.save
 
     CSV.open("balances.csv", "wb") do |csv|
-      Stripe::BalanceTransaction.all(count: 100, available_on: {gte: s.import_from}).each do |b|
+      Stripe::BalanceTransaction.all(count: 100, available_on: {gte: s.import_from.to_i}).each do |b|
         if b.type == "transfer"
           csv << [Time.at(b.created).strftime("%d/%m/%Y"), (b.amount / 100.0), "transfer"]
         elsif b.type == "charge"
@@ -94,10 +99,8 @@ class ImportWorker
     i.success = true
     i.save
 
-  rescue
-    i.log += "\n\nERROR\n\n"
-    i.success = false
-    l.save
+    s.import_from = DateTime.now
+    s.save
   end
 
 end
