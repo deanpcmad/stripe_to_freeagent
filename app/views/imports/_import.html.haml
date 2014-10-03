@@ -1,0 +1,5 @@
+= content_tag_for(:tr, import) do 
+  %td= log.created_at
+  %td= log.stripe_account
+  %td= log.freeagent_account
+  %td= link_to "View", import

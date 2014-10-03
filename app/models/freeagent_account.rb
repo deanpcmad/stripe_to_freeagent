@@ -3,7 +3,7 @@ class FreeagentAccount < ActiveRecord::Base
   belongs_to :user
 
   def self.from_omniauth(user, auth)
-    where(auth.uid).first_or_initialize.tap do |acc|
+    where(uid: auth.uid).first_or_initialize.tap do |acc|
     	acc.user = user
       acc.uid = auth.uid
       acc.email = auth.info.email

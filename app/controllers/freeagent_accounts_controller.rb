@@ -1,27 +1,27 @@
 class FreeagentAccountsController < ApplicationController
 
-	before_filter :authenticate_user!
+  before_filter :authenticate_user!
 
-	before_action {
-		@freeagent_account = current_user.freeagent_account
-	}
+  before_action {
+    @freeagent_account = current_user.freeagent_accounts.find(params[:id])
+  }
 
-	def edit
-		render action: "_form"
-	end
+  def edit
+    render action: "_form"
+  end
 
-	def update
-		if @freeagent_account.update_attributes(fa_params)
-			redirect_to root_path, notice: "Updated FreeAgent Account"
-		else
-			render "_form"
-		end
-	end
+  def update
+    if @freeagent_account.update_attributes(fa_params)
+      redirect_to root_path, notice: "Updated FreeAgent Account"
+    else
+      render "_form"
+    end
+  end
 
-	private
+  private
 
-	def fa_params
-		params.require(:freeagent_account).permit(:main, :stripe)
-	end
+  def fa_params
+    params.require(:freeagent_account).permit(:name, :main, :stripe)
+  end
 
 end

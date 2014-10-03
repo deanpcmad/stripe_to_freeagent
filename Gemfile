@@ -19,6 +19,7 @@ gem "stripe"
 gem "freeagent-api-ruby", github: "voupe/freeagent-api-ruby"
 
 gem "omniauth-freeagent"
+gem "omniauth-stripe-connect"
 
 gem "resque"
 gem "resque-web", require: "resque_web"

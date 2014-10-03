@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140323141357) do
+ActiveRecord::Schema.define(version: 20141003184756) do
 
   create_table "freeagent_accounts", force: true do |t|
     t.integer  "user_id"
@@ -28,15 +28,22 @@ ActiveRecord::Schema.define(version: 20140323141357) do
 
   add_index "freeagent_accounts", ["user_id"], name: "index_freeagent_accounts_on_user_id", using: :btree
 
-  create_table "logs", force: true do |t|
+  create_table "imports", force: true do |t|
     t.integer  "user_id"
-    t.text     "content"
-    t.boolean  "success",    default: false
+    t.integer  "stripe_account_id"
+    t.integer  "freeagent_account_id"
+    t.datetime "started_at"
+    t.datetime "finished_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "success",              default: false
+    t.text     "log"
+    t.string   "token"
   end
 
-  add_index "logs", ["user_id"], name: "index_logs_on_user_id", using: :btree
+  add_index "imports", ["freeagent_account_id"], name: "index_imports_on_freeagent_account_id", using: :btree
+  add_index "imports", ["stripe_account_id"], name: "index_imports_on_stripe_account_id", using: :btree
+  add_index "imports", ["user_id"], name: "index_imports_on_user_id", using: :btree
 
   create_table "stripe_accounts", force: true do |t|
     t.integer  "user_id"
@@ -46,6 +53,9 @@ ActiveRecord::Schema.define(version: 20140323141357) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "last_updated"
+    t.string   "uid"
+    t.string   "label"
+    t.datetime "import_from"
   end
 
   add_index "stripe_accounts", ["user_id"], name: "index_stripe_accounts_on_user_id", using: :btree

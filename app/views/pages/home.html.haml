@@ -4,55 +4,54 @@
 %hr
 
 - if user_signed_in?
-	%p.lead{style: "text-align:center"} Hello #{current_user.email}
-	%p{style: "text-align:center"}
-		= link_to "Login with FreeAgent", "/auth/freeagent", class: "btn btn-success"
-		= link_to "Login with Stripe", setup_stripe_path, method: :patch, class: "btn btn-success"
+  %p.lead{style: "text-align:center"} Hello #{current_user.email}
+  %p{style: "text-align:center"}
+    = link_to "Login with Stripe", "/auth/stripe_connect", class: "btn btn-success"
+    = link_to "Login with FreeAgent", "/auth/freeagent", class: "btn btn-success"
 
-	- if current_user.freeagent_account.present? && current_user.stripe_account.present?
-		%hr
-		%p{style: "text-align:center"}= link_to "Run Import", run_path, method: :put, class: "btn btn-primary btn-lg", data: {disable_with: "Running Import..."}
+  - if current_user.freeagent_accounts.count > 0 && current_user.stripe_accounts.count > 0
+    %hr
+    = form_for Import.new do |f|
+      .row
+        .form-group.col-md-6
+          = f.label :stripe_account_id
+          = f.select :stripe_account_id, current_user.stripe_accounts.map {|s| ["#{s.label} - #{s.stripe_user_id}", s.id]}, {}, {class: "form-control"}
+        .form-group.col-md-6
+          = f.label :freeagent_account_id
+          = f.select :freeagent_account_id, current_user.freeagent_accounts.map {|f| [f.email, f.id]}, {}, {class: "form-control"}
 
-	%hr
+        .text-center
+          = f.submit "Run Import", class: "btn btn-primary btn-lg", data: {disable_with: "Running Import..."}
 
-	%table.table
-		%thead
-			%tr
-				%th{width: "50%"} Stripe
-				%th FreeAgent
-		%tbody
-			%tr
-				%td
-					- if current_user.stripe_account.present?
-						%p= current_user.stripe_account.stripe_user_id
-					- else
-						%p Click the "Login with Stripe" button above
-				%td
-					- if current_user.freeagent_account.present?
-						%p= current_user.freeagent_account.email
-						%p Main Account: #{current_user.freeagent_account.main}
-						%p Stripe Account: #{current_user.freeagent_account.stripe}
-						%p= link_to "Edit", edit_freeagent_account_path(current_user.freeagent_account)
-					- else
-						%p Click the "Login with FreeAgent" button above
+  %hr
+
+  %table.table
+    %thead
+      %tr
+        %th{width: "50%"} Stripe
+        %th FreeAgent
+    %tbody
+      %tr
+        %td
+          - if current_user.stripe_accounts.count > 0
+            - current_user.stripe_accounts.each do |sa|
+              %p= sa.label
+              %p= sa.stripe_user_id
+              %p Import from #{sa.import_from}
+              %p= link_to "Edit", edit_stripe_account_path(sa)
+          - else
+            %p Click the "Login with Stripe" button above
+        %td
+          - if current_user.freeagent_accounts.count > 0
+            - current_user.freeagent_accounts.each do |fa|
+              %p= fa.email
+              %p Main Account: #{fa.main}
+              %p Stripe Account: #{fa.stripe}
+              %p= link_to "Edit", edit_freeagent_account_path(fa)
+          - else
+            %p Click the "Login with FreeAgent" button above
 
 - else
-	%p{style: "text-align:center; margin-bottom: 20px"}
-		= link_to "Sign In", new_user_session_path, class: "btn btn-primary btn-lg"
-		= link_to "Sign Up", new_user_registration_path, class: "btn btn-success btn-lg"
-
-/ .row.marketing
-/ 	.col-lg-6
-/ 		%h4 Subheading
-/ 		%p Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.
-/ 		%h4 Subheading
-/ 		%p Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.
-/ 		%h4 Subheading
-/ 		%p Maecenas sed diam eget risus varius blandit sit amet non magna.
-/ 	.col-lg-6
-/ 		%h4 Subheading
-/ 		%p Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.
-/ 		%h4 Subheading
-/ 		%p Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.
-/ 		%h4 Subheading
-/ 		%p Maecenas sed diam eget risus varius blandit sit amet non magna.
+  %p{style: "text-align:center; margin-bottom: 20px"}
+    = link_to "Sign In", new_user_session_path, class: "btn btn-primary btn-lg"
+    = link_to "Sign Up", new_user_registration_path, class: "btn btn-success btn-lg"

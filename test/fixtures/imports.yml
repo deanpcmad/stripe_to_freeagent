@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  stripe_account_id: 
+  freeagent_account_id: 
+  started_at: 2014-09-15 23:33:26
+  finished_at: 2014-09-15 23:33:26
+
+two:
+  user_id: 
+  stripe_account_id: 
+  freeagent_account_id: 
+  started_at: 2014-09-15 23:33:26
+  finished_at: 2014-09-15 23:33:26
