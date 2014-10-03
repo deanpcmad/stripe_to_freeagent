@@ -39,3 +39,7 @@ group :development do
 	gem "capistrano-voupe", github: "voupe/capistrano-voupe", require: false
 	gem "capistrano-resque", github: "deanperry/capistrano-resque", require: false
 end
+
+group :production do
+  gem "viaduct_rails_helpers"
+end
