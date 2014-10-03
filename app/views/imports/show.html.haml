@@ -1,7 +1,7 @@
 %h1 Import
 
 %p <b>Import Started:</b> #{@import.created_at}
-%p <b>Stripe Account:</b> #{@import.stripe_account}
-%p <b>FreeAgent Account:</b> #{@import.freeagent_account}
+%p <b>Stripe Account:</b> #{@import.stripe_account.id}
+%p <b>FreeAgent Account:</b> #{@import.freeagent_account.id}
 
 %pre#log_content= simple_format @import.log

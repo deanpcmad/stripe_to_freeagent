@@ -1,9 +1,9 @@
 ready = ->
-	# Logs Poll
-	logs = window.location.pathname.match(/logs\/[0-9]*/)
-	if logs
+	# Imports Poll
+	imports = window.location.pathname.match(/imports\/[0-9a-zA-Z]*-[0-9a-zA-Z]*-[0-9a-zA-Z]*-[0-9a-zA-Z]*-[0-9a-zA-Z]*/i)
+	if imports
 		setInterval (->
-			$.ajax "/#{logs[0]}.js",
+			$.ajax "/#{imports[0]}.js",
 				success: (data) ->
 					data
 		), 1000
