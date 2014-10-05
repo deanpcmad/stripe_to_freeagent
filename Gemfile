@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "4.0.4"
+gem "rails", "4.1.6"
 
 gem "mysql2"
 
@@ -35,9 +35,10 @@ group :development do
 	gem "binding_of_caller"
 	gem "letter_opener"
 	gem "quiet_assets"
-	gem "capistrano", "~> 2"
-	gem "capistrano-voupe", github: "voupe/capistrano-voupe", require: false
-	gem "capistrano-resque", github: "deanperry/capistrano-resque", require: false
+	gem "capistrano"
+  gem "capistrano-bundler", require: false
+  gem "capistrano-rails", require: false
+	gem "capistrano-resque", require: false
 end
 
 group :production do

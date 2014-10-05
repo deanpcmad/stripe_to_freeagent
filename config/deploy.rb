@@ -1,53 +1,58 @@
-# =============================================================================
-# GENERAL SETTINGS
-# =============================================================================
+# config valid only for Capistrano 3.1
+lock '3.2.1'
 
-## Set the name for the application
-set :application, "stripe_to_freeagent"
+set :application, "s2f"
+set :repo_url, "git@codebasehq.com:voupe/voupe-apps/stripe-to-freeagent.git"
 
-## Path where the application should be stored
-set :deploy_to, "/opt/apps/stripe_to_freeagent"
+# Default branch is :master
+# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
-## Repository settings
-set :repository, "git@github.com:voupe/stripe_to_freeagent.git"
-set :branch, "master"
+# Default deploy_to directory is /var/www/my_app
+set :deploy_to, "/opt/apps/s2f"
 
-## Server/app details
-server "87.117.253.86", :web, :app, :db, primary: true
-set :domain_name, "stripetofreeagent.com"
- 
-role :resque_worker, "87.117.253.86"
-role :resque_scheduler, "87.117.253.86"
-set :workers, { "*" => 2 }
+# Default value for :scm is :git
+set :scm, :git
 
-after "deploy:restart", "resque:restart"
+# Default value for :format is :pretty
+# set :format, :pretty
 
-# Voupe Deploy tracking
-set :dashboard_site_uuid, "20571dab-b87e-4c46-9b04-9ae9625a75f5"
- 
-# =============================================================================
-# RECIPE INCLUDES
-# =============================================================================
- 
-require "rubygems"
-require "bundler/capistrano"
-require "capistrano-resque"
-require "capistrano-voupe"
+# Default value for :log_level is :debug
+# set :log_level, :debug
 
-namespace :symlink do
-	task :stripe_connect, roles: :app, except: {no_release: true} do
-		run "ln -nfs #{shared_path}/config/initializers/stripe_connect.rb #{release_path}/config/initializers/stripe_connect.rb"
-	end
+# Default value for :pty is false
+set :pty, true
 
-	task :omniauth, roles: :app, except: {no_release: true} do
-		run "ln -nfs #{shared_path}/config/initializers/omniauth.rb #{release_path}/config/initializers/omniauth.rb"
-	end
+# Default value for :linked_files is []
+set :linked_files, %w{config/database.yml config/initializers/omniauth.rb}
 
-	task :secret_token, roles: :app, except: {no_release: true} do
-		run "ln -nfs #{shared_path}/config/secret_token.yml #{release_path}/config/secret_token.yml"
-	end
+# Default value for linked_dirs is []
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+
+# Default value for default_env is {}
+# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+
+# Default value for keep_releases is 5
+set :keep_releases, 5
+
+namespace :deploy do
+
+  desc 'Restart application'
+  task :restart do
+    on roles(:app), in: :sequence, wait: 5 do
+      # Your restart mechanism here, for example:
+      execute :touch, release_path.join('tmp/restart.txt')
+    end
+  end
+
+  after :publishing, :restart
+
+  # after :restart, :clear_cache do
+  #   on roles(:web), in: :groups, limit: 3, wait: 10 do
+  #     # Here we can do anything such as:
+  #     # within release_path do
+  #     #   execute :rake, 'cache:clear'
+  #     # end
+  #   end
+  # end
+
 end
-
-after "mysql:symlink", "symlink:stripe_connect"
-after "mysql:symlink", "symlink:omniauth"
-after "mysql:symlink", "symlink:secret_token"
