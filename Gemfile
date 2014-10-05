@@ -40,7 +40,3 @@ group :development do
   gem "capistrano-rails", require: false
 	gem "capistrano-resque", require: false
 end
-
-group :production do
-  gem "viaduct_rails_helpers"
-end
