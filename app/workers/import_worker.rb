@@ -19,7 +19,7 @@ class ImportWorker
 
     # Refresh the FreeAgent token if it's expired
     if f.token_expired?
-      f.refresh_token_if_expired
+      f.do_refresh_token_if_expired
     end
 
     FreeAgent.access_details ENV["FREEAGENT_ID"], ENV["FREEAGENT_SECRET"], f.token
