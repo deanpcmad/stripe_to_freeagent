@@ -23,7 +23,7 @@ set :scm, :git
 set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %w{config/database.yml config/initializers/omniauth.rb}
+set :linked_files, %w{config/database.yml config/initializers/omniauth.rb config/initializers/airbrake.rb}
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
@@ -34,6 +34,8 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public
 # Default value for keep_releases is 5
 set :keep_releases, 5
 
+set :workers, { "*" => 1 }
+set :resque_environment_task, true
 after "deploy:restart", "resque:restart"
 
 namespace :deploy do
