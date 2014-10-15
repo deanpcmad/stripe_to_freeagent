@@ -14,7 +14,7 @@ class FreeagentAccount < ActiveRecord::Base
     end
   end
 
-  def do_refresh_token
+  def refresh_token!
     response    = RestClient.post "https://api.freeagent.com/v2/token_endpoint", :grant_type => 'refresh_token', :refresh_token => self.refresh_token, :client_id => ENV["FREEAGENT_ID"], :client_secret => ENV["FREEAGENT_SECRET"] 
     refreshhash = JSON.parse(response.body)
 
