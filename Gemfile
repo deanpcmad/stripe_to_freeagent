@@ -30,13 +30,9 @@ gem "active_link_to"
 gem "airbrake"
 
 group :development do 
-	gem "powder"
-	gem "better_errors"
-	gem "binding_of_caller"
-	gem "letter_opener"
-	gem "quiet_assets"
-	gem "capistrano"
-  gem "capistrano-bundler", require: false
-  gem "capistrano-rails", require: false
-	gem "capistrano-resque", require: false
+  gem "powder"
+  gem "better_errors"
+  gem "binding_of_caller"
+  gem "letter_opener"
+  gem "quiet_assets"
 end
