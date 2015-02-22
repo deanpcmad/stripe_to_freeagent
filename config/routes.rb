@@ -1,7 +1,4 @@
-require "resque_web"
-ResqueWeb::Engine.eager_load!
-
-StripeToFreeagent::Application.routes.draw do
+Rails.application.routes.draw do
 
   root "pages#home"
 
@@ -14,7 +11,5 @@ StripeToFreeagent::Application.routes.draw do
   resources :freeagent_accounts
   resources :stripe_accounts
   resources :imports
-
-  mount ResqueWeb::Engine => "/resque_web"
 
 end
