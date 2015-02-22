@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "4.1.6"
+gem "rails", "4.2.0"
 
 gem "mysql2"
 
@@ -21,9 +21,7 @@ gem "freeagent-api-ruby", github: "voupe/freeagent-api-ruby"
 gem "omniauth-freeagent"
 gem "omniauth-stripe-connect"
 
-gem "resque"
-gem "resque-web", require: "resque_web"
-gem "resque-scheduler"
+gem "delayed_job_active_record"
 
 gem "active_link_to"
 
