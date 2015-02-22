@@ -2,8 +2,8 @@
 
 A Rails 4 app that uploads data from your Stripe account to FreeAgent.
 
-- Ruby 2.0
-- Rails 4.0.4
+- Ruby 2.1.3
+- Rails 4.2.0
 - MySQL
 
 ### Things that need changing
