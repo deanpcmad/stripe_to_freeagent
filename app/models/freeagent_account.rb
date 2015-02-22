@@ -21,7 +21,7 @@ class FreeagentAccount < ActiveRecord::Base
     token_will_change!
     expires_at_will_change!
 
-    self.token     = refreshhash['access_token']
+    self.token      = refreshhash['access_token']
     self.expires_at = DateTime.now + refreshhash["expires_in"].to_i.seconds
 
     self.save

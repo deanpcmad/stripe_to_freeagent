@@ -2,9 +2,6 @@
 
 A Rails 4 app that uploads data from your Stripe account to FreeAgent.
 
-- Ruby 2.1.3
-- Rails 4.2.0
-- MySQL
 
 ## Setup
 
@@ -14,10 +11,15 @@ A Rails 4 app that uploads data from your Stripe account to FreeAgent.
 - Run the Rails server `rails server`
 - Login with `test@test.com` and `password`
 
-### Things that need changing
+In Production, set the following environment variables:
 
-+ Bank transfer dates are set by the stripe create date, not the date it will arrive
-+ Better design
+- `USERNAME` - Delayed Job Web username
+- `PASSWORD` - Delayed Job Web password
+- `FREEAGENT_ID` - Your FreeAgent API ID
+- `FREEAGENT_SECRET` - Your FreeAgent API Secret
+- `STRIPE_CLIENT_ID` - Stripe Client ID
+- `STRIPE_SECRET` - Stripe Secret API TOken
+- `SECRET_KEY_BASE` - Run `rake secret` and copy the result to this
 
 
 ### Contribute

@@ -6,6 +6,7 @@ class Import < ActiveRecord::Base
 
   before_validation :generate_token, unless: Proc.new { |model| model.persisted? }
 
+  # The magic code that runs an import
   def run_import!
     require "freeagent"
     require "stripe"
@@ -67,7 +68,6 @@ class Import < ActiveRecord::Base
       i.success = true
       i.save
     else
-
       i.log += "Uploading Stripe Balance Transactions to FreeAgent account #{f.stripe}...\n"
       i.save
 
@@ -115,10 +115,10 @@ class Import < ActiveRecord::Base
       i.finished_at = DateTime.now
       i.success = true
       i.save
-    end
 
-    # s.import_from = DateTime.now
-    # s.save
+      s.import_from = i.finished_at
+      s.save
+    end
   end
 
   private
