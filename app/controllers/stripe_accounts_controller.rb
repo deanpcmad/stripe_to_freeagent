@@ -1,7 +1,5 @@
 class StripeAccountsController < ApplicationController
-
-  before_filter :authenticate_user!
-
+  
   before_action {
     @stripe_account = current_user.stripe_accounts.find(params[:id])
   }

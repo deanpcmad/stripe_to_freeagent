@@ -7,3 +7,4 @@ config/secret_token.yml
 balances.csv
 config/initializers/omniauth.rb
 config/initializers/airbrake.rb
+.env

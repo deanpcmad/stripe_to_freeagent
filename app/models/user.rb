@@ -1,7 +1,12 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
+
+  authenticates_with_sorcery!
+
+  validates :password, length: { minimum: 3 }
+  validates :password, confirmation: true
+  validates :password_confirmation, presence: true
+
+  validates :email, uniqueness: true
 
   before_validation :generate_token, unless: Proc.new { |model| model.persisted? }
 
@@ -12,7 +17,7 @@ class User < ActiveRecord::Base
   private
 
   def generate_token
-  	self.token = SecureRandom.uuid
+    self.token = SecureRandom.uuid
   end
 
 end

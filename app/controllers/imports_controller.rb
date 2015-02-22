@@ -1,7 +1,5 @@
 class ImportsController < ApplicationController
 
-  before_filter :authenticate_user!
-
   def index
     @imports = current_user.imports.to_a
   end

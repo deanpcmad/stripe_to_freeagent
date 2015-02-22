@@ -11,7 +11,6 @@
       %ul.nav.nav-pills.pull-right
         = active_link_to "Home", root_path, wrap_tag: :li, active: [["pages"], ["home"]]
         = active_link_to "Imports", imports_path, wrap_tag: :li if current_user
-        %li= mail_to "dean@voupe.com", "Contact", subject: "Stripe to FreeAgent"
       %h3.text-muted Stripe to FreeAgent
 
     .alert_messages
@@ -23,5 +22,5 @@
     = yield
     
     .footer
-      %p.r= link_to "Logout", destroy_user_session_path, method: :delete
-      %p This is an app by #{link_to "Voupe", "http://voupe.com"} and it's #{link_to "Open Source", "https://github.com/voupe/stripe_to_freeagent"}!
+      %p.r= link_to "Logout", logout_path, method: :post
+      %p This is an app by #{link_to "Voupe", "http://voupe.com"} and it's #{link_to "Open Source", "https://github.com/voupe/stripe_to_freeagent"}! #{mail_to "dean@voupe.com", "Contact", subject: "Stripe to FreeAgent"}
