@@ -15,9 +15,9 @@ class ImportsController < ApplicationController
 
   def create
     @import = current_user.imports.build(import_params)
-    @import.log = ""
+    @import.log = "Import queued at #{DateTime.now}\n\n"
     if @import.save
-      Resque.enqueue(ImportWorker, current_user.id, @import.id)
+      @import.delay.run_import!
       redirect_to import_path(@import.token), notice: "Import started. Below is the log for it."
     end
   end
