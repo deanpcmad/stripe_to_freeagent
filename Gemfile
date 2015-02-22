@@ -23,6 +23,8 @@ gem "omniauth-freeagent"
 gem "omniauth-stripe-connect"
 
 gem "delayed_job_active_record"
+gem "delayed_job_web"
+gem "daemons"
 
 gem "active_link_to"
 

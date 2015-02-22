@@ -15,4 +15,6 @@ Rails.application.routes.draw do
   resources :stripe_accounts
   resources :imports
 
+  match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
+
 end
