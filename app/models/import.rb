@@ -45,9 +45,9 @@ class Import < ActiveRecord::Base
         elsif b.type == "charge"
           if b.fee > 0
             # Create the charge
-            csv << [Time.at(b.available_on).strftime("%d/%m/%Y"), (b.amount / 100.0), (b.description || b.source)]
+            csv << [Time.at(b.created).strftime("%d/%m/%Y"), (b.amount / 100.0), (b.description || b.source)]
             # Create the fee for that charge
-            csv << [Time.at(b.available_on).strftime("%d/%m/%Y"), -(b.fee / 100.0), "stripe_fee"]
+            csv << [Time.at(b.created).strftime("%d/%m/%Y"), -(b.fee / 100.0), "stripe_fee"]
           else
             # nothing
           end
